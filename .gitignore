@@ -47,4 +47,5 @@ app.*.map.json
 
 # Generated flutter windows files
 
-windows/flutter/
+/windows/flutter
+.cmake
