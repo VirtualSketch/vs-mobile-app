@@ -36,9 +36,9 @@ jobs:
         run: flutter format --dry-run --set-exit-if-changed lib/
         run: flutter format --dry-run --set-exit-if-changed test/
 
-      - name: Run tests
-        run: flutter test --coverage
-        run: flutter test --machine > test-results.json
+      # - name: Run tests
+      #   run: flutter test --coverage
+      #   run: flutter test --machine > test-results.json
 
       - uses: dorny/test-reporter@v1.4.2
         with:
