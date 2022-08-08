@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
       ),
       body: const Center(
         child: Text(
-          'Tela Home',
+          'Tela Home Teste',
         ),
       ),
     );
