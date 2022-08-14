@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'comp_main.dart';
+
 class CircleButton extends StatelessWidget {
   const CircleButton({Key? key}) : super(key: key);
 
@@ -8,7 +10,14 @@ class CircleButton extends StatelessWidget {
     return Column(
       children: [
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CompMain(),
+              ),
+            );
+          },
           child: const Icon(
             Icons.circle,
             color: Colors.white,
