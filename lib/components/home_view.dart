@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'botao_circular.dart';
+import 'circle_button.dart';
 
-class Fundo extends StatelessWidget {
-  const Fundo({Key? key}) : super(key: key);
+class HomeView extends StatelessWidget {
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class Fundo extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
-          BotaoCircular(),
+          CircleButton(),
         ],
       ),
     );

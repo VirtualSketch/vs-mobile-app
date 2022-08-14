@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/fundo.dart';
+import '../components/home_view.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: const [
           Expanded(
-            child: Fundo(),
+            child: HomeView(),
           ),
         ],
       ),
