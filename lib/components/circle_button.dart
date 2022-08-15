@@ -9,12 +9,12 @@ class CircleButton extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            /*Navigator.push(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const MainPage(),
               ),
-            );*/
+            );
           },
           child: const Icon(
             Icons.circle,
