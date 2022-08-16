@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/comp_main.dart';
+import '../components/main_frame.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -10,7 +10,7 @@ class MainPage extends StatelessWidget {
       body: Column(
         children: const [
           Expanded(
-            child: CompMain(),
+            child: MainFrame(),
           ),
         ],
       ),
