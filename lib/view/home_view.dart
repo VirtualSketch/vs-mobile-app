@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/comp_home.dart';
+import '../components/splash_screan.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
       body: Column(
         children: const [
           Expanded(
-            child: CompHome(),
+            child: SplashScrean(),
           ),
         ],
       ),
