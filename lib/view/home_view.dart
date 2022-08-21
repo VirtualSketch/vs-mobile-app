@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Padding(
-                              padding: EdgeInsets.only(top: 150),
+                              padding: EdgeInsets.only(top: 100),
                               child: Icon(
                                 Icons.keyboard_double_arrow_up_rounded,
                                 color: Color(0xFFBBCDE5),
@@ -81,7 +81,19 @@ class HomePage extends StatelessWidget {
                             ),
                             Center(
                               child: Text(
-                                '\r \r \r  SWIPE UP \n to open the menu',
+                                'SWIPE UP',
+                                style: GoogleFonts.nunito(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 25,
+                                    color: Color(0xFFBBCDE5),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Text(
+                                'to open the menu',
                                 style: GoogleFonts.nunito(
                                   textStyle: const TextStyle(
                                     fontWeight: FontWeight.w700,
