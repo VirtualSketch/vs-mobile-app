@@ -1,13 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:virtual_sketch_app/repositories/create_session_repositiory.dart';
-import 'package:virtual_sketch_app/repositories/get_equation_repository.dart';
-import 'package:virtual_sketch_app/repositories/get_graph_repository.dart';
-import 'package:virtual_sketch_app/repositories/kill_session_repository.dart';
-import 'package:virtual_sketch_app/services/api/create_session_api.dart';
-import 'package:virtual_sketch_app/services/api/get_equation_api.dart';
-import 'package:virtual_sketch_app/services/api/get_graph_api.dart';
-import 'package:virtual_sketch_app/services/api/kill_session_api.dart';
 import 'package:virtual_sketch_app/services/dio_client.dart';
+import 'package:virtual_sketch_app/services/api/api.dart';
+import 'package:virtual_sketch_app/repositories/repositories.dart';
 import 'package:virtual_sketch_app/view/home_view.dart';
 import 'package:dio/dio.dart';
 
