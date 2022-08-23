@@ -3,5 +3,6 @@ class Endpoints {
 
   static const String createSession = '/create_session';
   static const String getGraph = '/get_graph';
-  static const String getResolvedAccount = '/get_equation';
+  static const String getEquation = '/get_equation';
+  static const String killSession = '/kill_session';
 }
