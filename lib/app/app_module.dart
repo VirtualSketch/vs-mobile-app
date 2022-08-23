@@ -1,9 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:virtual_sketch_app/services/dio_client.dart';
 import 'package:virtual_sketch_app/services/api/api.dart';
 import 'package:virtual_sketch_app/repositories/repositories.dart';
 import 'package:virtual_sketch_app/view/home_view.dart';
-import 'package:dio/dio.dart';
 
 class AppModule extends Module {
   @override
