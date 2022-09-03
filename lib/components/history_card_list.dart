@@ -41,13 +41,12 @@ class HistoryCardList extends StatelessWidget {
             ),
             child: SizedBox(
               width: double.infinity,
-              height: 400,
               child: Center(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: Text(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Column(
+                    children: [
+                      Text(
                         '1fst Degree Function',
                         style: GoogleFonts.nunito(
                           textStyle: const TextStyle(
@@ -57,20 +56,18 @@ class HistoryCardList extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      child: SizedBox(
-                        width: 150,
-                        height: 150,
-                        child: Image(
-                          image: NetworkImage(
-                              'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: SizedBox(
+                          width: 150,
+                          height: 150,
+                          child: Image(
+                            image: NetworkImage(
+                                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                          ),
                         ),
                       ),
-                    ),
-                    Center(
-                      child: Text(
+                      Text(
                         'f(x) = -2X + 1 \nf(0) = -2x0 + 1 = 1 \nf(1) = -2x1 + 1 = -1 \nf(2) = -2x2 + 1 = -3 \nf(3) = -2x3 + 1 = -5',
                         style: GoogleFonts.nunito(
                           textStyle: const TextStyle(
@@ -80,8 +77,8 @@ class HistoryCardList extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
