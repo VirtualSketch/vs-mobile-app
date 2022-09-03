@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class HistoryCloseButton extends StatelessWidget {
-  const HistoryCloseButton({Key? key}) : super(key: key);
+  final Function() onClose;
+
+  const HistoryCloseButton({Key? key, required this.onClose}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,14 +12,7 @@ class HistoryCloseButton extends StatelessWidget {
       child: Column(
         children: [
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ),
-              );
-            },
+            onPressed: onClose,
             child: const Icon(
               Icons.close,
               color: Color(0xFF8075FF),
