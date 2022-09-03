@@ -21,6 +21,8 @@ dependencies:
   json_annotation: ^4.6.0
   arcore_flutter_plugin:
     git: https://github.com/VirtualSketch/arcore_flutter_plugin.git
+  vs_ai_vision:
+    git: https://github.com/VirtualSketch/vs-ai-vision.git
 
 dev_dependencies:
   flutter_test:
