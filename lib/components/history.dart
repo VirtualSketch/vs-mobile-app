@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:virtual_sketch_app/components/custom_close_button.dart';
 import 'history_card_list.dart';
-import 'history_close_button.dart';
 
 class History extends StatelessWidget {
   final PageController pageViewController;
@@ -18,11 +18,8 @@ class History extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    HistoryCloseButton(onClose: _handleCloseButton),
-                  ],
-                ),
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [CustomCloseButton(onClose: _handleCloseButton)]),
               ),
               Center(
                 child: Padding(

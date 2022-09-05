@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-class HistoryCloseButton extends StatelessWidget {
-  final Function() onClose;
+class CustomCloseButton extends StatelessWidget {
+  final void Function() onClose;
 
-  const HistoryCloseButton({Key? key, required this.onClose}) : super(key: key);
+  const CustomCloseButton({Key? key, required this.onClose}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFF7A44EC),
       child: Column(
         children: [
           ElevatedButton(
