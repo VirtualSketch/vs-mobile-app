@@ -19,6 +19,7 @@ dependencies:
   vector_math: ^2.1.2
   dio: ^4.0.6
   json_annotation: ^4.6.0
+  font_awesome_flutter: ^10.1.0
   arcore_flutter_plugin:
     git: https://github.com/VirtualSketch/arcore_flutter_plugin.git
 
