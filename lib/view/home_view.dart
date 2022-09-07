@@ -3,13 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:virtual_sketch_app/components/app_bar_menu.dart';
 import 'package:virtual_sketch_app/components/history.dart';
 import 'package:virtual_sketch_app/utils/ia_read.dart';
+import 'package:virtual_sketch_app/components/subject_screen.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final controller = PageController(initialPage: 2);
+    final controller = PageController(initialPage: 1);
 
     return PageView(
       controller: controller,
@@ -69,6 +70,7 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
+        SubjectScreen(pageViewController: controller),
       ],
     );
   }

@@ -19,6 +19,8 @@ dependencies:
   vector_math: ^2.1.2
   dio: ^4.0.6
   json_annotation: ^4.6.0
+  flutter_native_splash: ^2.2.8
+  font_awesome_flutter: ^10.1.0
   arcore_flutter_plugin:
     git: https://github.com/VirtualSketch/arcore_flutter_plugin.git
   vs_ai_vision:
@@ -31,6 +33,10 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   build_runner: ^2.2.0
   json_serializable: ^6.3.1
+
+flutter_native_splash:
+  image: assets/splash.png
+  color: "#7A44EC"
 
 flutter:
   uses-material-design: true
