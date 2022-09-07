@@ -7,12 +7,20 @@ class SectionTemplate extends StatelessWidget {
       {Key? key,
       this.bgColor = Colors.white,
       required this.child,
-      required this.closeButtonWidget})
+      required this.closeButtonWidget,
+      required this.title,
+      this.subTitle})
       : super(key: key);
 
   final Color? bgColor;
   final Widget child;
   final CustomCloseButton closeButtonWidget;
+  final String title;
+  final String? subTitle;
+
+  Widget getSubtitleWidget(String subTitle) {
+    return Text(subTitle);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +29,16 @@ class SectionTemplate extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-              width: double.infinity,
-              alignment: AlignmentDirectional.centerStart,
-              child: closeButtonWidget,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 0, 0),
+              child: Container(
+                alignment: AlignmentDirectional.centerStart,
+                child: closeButtonWidget,
+              ),
             ),
+            const SizedBox(height: 15),
             Text(
-              'Choose a subject',
+              title,
               textAlign: TextAlign.center,
               style: GoogleFonts.nunito(
                 textStyle: const TextStyle(
@@ -37,19 +48,24 @@ class SectionTemplate extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              'to start to learn',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.nunito(
-                textStyle: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 25,
-                  color: Color(0xFFEDF6F9),
+            if (subTitle != null)
+              Text(
+                subTitle!,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.nunito(
+                  textStyle: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 25,
+                    color: Color(0xFFEDF6F9),
+                  ),
                 ),
               ),
-            ),
+            const SizedBox(height: 30),
             Expanded(
-              child: child,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: child,
+              ),
             ),
           ],
         ),
