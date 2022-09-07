@@ -7,24 +7,17 @@ class CustomCloseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          ElevatedButton(
-            onPressed: onClose,
-            child: const Icon(
-              Icons.close,
-              color: Color(0xFF8075FF),
-              size: 32,
-            ),
-            style: ElevatedButton.styleFrom(
-              fixedSize: const Size(40, 40),
-              shape: const CircleBorder(),
-              primary: const Color(0xFFEDF6F9),
-            ),
-          ),
-        ],
-      ),
-    );
+    return ElevatedButton(
+        onPressed: onClose,
+        child: const Icon(
+          Icons.close,
+          color: Color(0xFF8075FF),
+          size: 32,
+        ),
+        style: ElevatedButton.styleFrom(
+          fixedSize: const Size(40, 40),
+          shape: const CircleBorder(),
+          primary: const Color(0xFFEDF6F9),
+        ));
   }
 }
