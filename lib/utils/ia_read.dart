@@ -1,7 +1,7 @@
 import 'package:vs_ai_vision/vs_ai_vision.dart';
+import 'package:ffi/ffi.dart';
 
 void getReadExpression() {
   final svmMethods = SVMFunctions();
-  svmMethods.predict();
-  print('Predictado');
+  print(svmMethods.predict().toDartString());
 }
