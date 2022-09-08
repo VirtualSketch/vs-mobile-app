@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.9) # set CMAKE version
 set( CMAKE_CXX_STANDARD 11 ) # set C++ standard to c11
-set( ANDROID_OPENCV_SOURCE_DIR /home/atikin/Downloads/opencv-android/OpenCV-android-sdk/sdk/native/jni/include )
 project( vs-ai-vision ) # name of the project
 include_directories( ${ANDROID_OPENCV_SOURCE_DIR} ) # include all library dirs
 
