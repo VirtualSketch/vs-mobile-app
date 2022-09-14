@@ -17,9 +17,13 @@ using namespace cv;
 
 extern "C" void train(void) {
 
-    Mat image1 = preprocessImage("assets/numbers1.jpg", true);
-    Mat image2 = preprocessImage("assets/numbers2.jpg", true);
-    Mat image3 = preprocessSymbols("assets/symbols2.jpg");
+    Mat rawImage1 = imread("assets/numbers1.jpg");
+    Mat rawImage2 = imread("assets/numbers2.jpg");
+    Mat rawImage3 = imread("assets/symbols2.jpg");
+
+    Mat image1 = preprocessImage(rawImage1, true);
+    Mat image2 = preprocessImage(rawImage2, true);
+    Mat image3 = preprocessSymbols(rawImage3);
 
     coordinatedMat coordMat1 = getBoundingSymbols(image1, 100, true);
     coordinatedMat coordMat2 = getBoundingSymbols(image2, 1000, true);

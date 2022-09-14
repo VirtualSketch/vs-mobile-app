@@ -12,13 +12,13 @@
 
 Size getOptimalSize(Mat image);
 
-Mat halfProcessImage(string imageName);
+Mat halfProcessImage(Mat image);
 
-Mat preprocessImage(string imageName, bool training);
+Mat preprocessImage(Mat image, bool training);
 
-Mat preprocessImage(string imageName);
+Mat preprocessImage(Mat image);
 
-Mat preprocessSymbols(string imageName);
+Mat preprocessSymbols(Mat image);
 
 #endif
 
