@@ -7,12 +7,14 @@ class SubjectItem extends StatelessWidget {
       {Key? key,
       required this.name,
       required this.icon,
-      this.isDisabled = false})
+      this.isDisabled = false,
+      required this.onTap})
       : super(key: key);
 
   final String name;
   final IconData icon;
   final bool isDisabled;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -28,30 +30,27 @@ class SubjectItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
           color: const Color(0xffEDF6F9),
           child: isDisabled
-              ? Container(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FaIcon(icon, color: const Color(0xFF8075FF)),
-                      const SizedBox(
-                        height: 4.0,
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FaIcon(icon, color: const Color(0xFF8075FF)),
+                    const SizedBox(
+                      height: 4.0,
+                    ),
+                    Text(
+                      name,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.nunito(
+                        textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Color(0xFF8075FF)),
                       ),
-                      Text(
-                        name,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.nunito(
-                          textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Color(0xFF8075FF)),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               : InkWell(
-                  onTap: () {},
+                  onTap: onTap,
                   borderRadius: BorderRadius.circular(12.0),
                   child: Container(
                     padding: const EdgeInsets.all(12.0),

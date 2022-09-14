@@ -21,6 +21,8 @@ dependencies:
   json_annotation: ^4.6.0
   flutter_native_splash: ^2.2.8
   font_awesome_flutter: ^10.1.0
+  indexed: ^0.0.8
+  screenshot: ^1.2.3
   arcore_flutter_plugin:
     git: https://github.com/VirtualSketch/arcore_flutter_plugin.git
 

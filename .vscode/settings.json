@@ -6,6 +6,5 @@
     "dart.previewFlutterUiGuides": true,
     "dart.analysisExcludedFolders": [
         "lib/generated"
-    ]
-    
+    ],
 }
