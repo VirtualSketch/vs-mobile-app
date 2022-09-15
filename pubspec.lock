@@ -685,8 +685,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: "1d129a2db41af577a8eade34737eeb03b9449b2a"
+      ref: develop
+      resolved-ref: "88249db146bf7f8a7804b49b9400e5b1f9cd5345"
       url: "https://github.com/VirtualSketch/vs-ai-vision.git"
     source: git
     version: "1.0.0"
