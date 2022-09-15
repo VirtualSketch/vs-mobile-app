@@ -14,7 +14,6 @@ class HomePage extends StatelessWidget {
     return PageView(
       controller: controller,
       scrollDirection: Axis.vertical,
-      onPageChanged: (value) => print(value),
       children: [
         History(pageViewController: controller),
         Scaffold(

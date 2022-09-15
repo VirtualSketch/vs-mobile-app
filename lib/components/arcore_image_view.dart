@@ -4,7 +4,10 @@ import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:indexed/indexed.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
+import 'package:virtual_sketch_app/components/custom_close_button.dart';
 import 'package:virtual_sketch_app/utils/to_uint_8_list.dart';
 import 'package:virtual_sketch_app/view_model/main_viewmodel.dart';
 
@@ -27,40 +30,47 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
       final mainViewModel = Modular.get<MainViewModel>();
 
       return Scaffold(
-          appBar: AppBar(title: const Text('Screenshot')),
-          floatingActionButton: FloatingActionButton(onPressed: () async {
-            // final image = await arCoreController.takeScreenshot();
-            // final view = await arCoreController.getView();
-            // final view = await arCoreController.getLog();
-            // final path = await arCoreController.snapshot();
-            mainViewModel.takeSnapshot();
-            print('Path da imagem');
-            // print(path);
-
-            // setState(() {
-            //   imageBytes = path;
-            // });
-          }),
-          body: Column(
-            children: [
-              Expanded(
-                child: ArCoreView(
-                  // onArCoreViewCreated: _onArCoreViewCreated,
-                  onArCoreViewCreated: (controller) =>
-                      _onArCoreViewCreated(controller, mainViewModel),
-                  type: ArCoreViewType.AUGMENTEDIMAGES,
-                  enableTapRecognizer: true,
-                  enableUpdateListener: true,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: const Color(0xFF7A44EC),
+            onPressed: () async {
+              mainViewModel.takeSnapshot();
+            },
+            child: const FaIcon(FontAwesomeIcons.camera),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          body: SafeArea(
+            child: Indexer(
+              children: [
+                Indexed(
+                  index: 99,
+                  child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: CustomCloseButton(
+                          onClose: () => Modular.to.navigate('/'))),
                 ),
-              ),
-              SizedBox(
-                height: 200,
-                child: mainViewModel.currentImageBytes != null
-                    ? Image.memory(mainViewModel.currentImageBytes!)
-                    : Image.network(
-                        'https://media.istockphoto.com/photos/mountain-landscape-picture-id517188688?k=20&m=517188688&s=612x612&w=0&h=i38qBm2P-6V4vZVEaMy_TaTEaoCMkYhvLCysE7yJQ5Q='),
-              )
-            ],
+                Column(
+                  children: [
+                    Expanded(
+                      child: ArCoreView(
+                        onArCoreViewCreated: (controller) =>
+                            _onArCoreViewCreated(controller, mainViewModel),
+                        type: ArCoreViewType.AUGMENTEDIMAGES,
+                        // enableTapRecognizer: true,
+                        // enableUpdateListener: true,
+                      ),
+                    ),
+                    // SizedBox(
+                    //   height: 200,
+                    //   child: mainViewModel.currentImageBytes != null
+                    //       ? Image.memory(mainViewModel.currentImageBytes!)
+                    //       : Image.network(
+                    //           'https://media.istockphoto.com/photos/mountain-landscape-picture-id517188688?k=20&m=517188688&s=612x612&w=0&h=i38qBm2P-6V4vZVEaMy_TaTEaoCMkYhvLCysE7yJQ5Q='),
+                    // )
+                  ],
+                )
+              ],
+            ),
           ));
     });
   }
@@ -98,7 +108,7 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
       image: image,
       position: vector.Vector3(-0.5, -0.5, -3.5),
     );
-    controller.addArCoreNode(node);
+    // controller.addArCoreNode(node);
   }
 
   @override
