@@ -16,7 +16,7 @@
 using namespace std;
 using namespace cv;
 
-extern "C" const char * predict(void) {
+extern "C" const char * predict(uint8_t * bytelist, int rows, int cols) {
 
     /*
      * All predictions from image1 to image3 were used to
@@ -26,11 +26,13 @@ extern "C" const char * predict(void) {
      * Uncomment them to see the other results.
      */
 
+    Mat image = Mat(Size(cols, rows), CV_8UC3, bytelist);
+
     // Mat image1 = preprocessImage("./assets/mynumbers.jpeg");
     // Mat image2 = preprocessImage("./assets/realtest2.jpeg");
     // Mat image3 = preprocessImage("./assets/realtest3.jpg");
     /* Mat image4 = preprocessSymbols("/data/data/com.example.virtual_sketch_app/app_flutter/expression2.jpg"); */
-    Mat image4 = preprocessSymbols("/data/data/com.example.virtual_sketch_app/cache/expression2.jpg");
+    Mat image4 = preprocessSymbols(image);
     /* Mat image4 = preprocessSymbols("assets/expression2.jpg"); */
 
     // coordinatedMat coordMat1 = getBoundingSymbols(image1, 100);
@@ -111,4 +113,12 @@ extern "C" const char * predict(void) {
     const char * predicted = outputToChar;
 
     return predicted;
+}
+
+extern "C" const char * predictSample() {
+    Mat image = imread("/data/data/com.example.virtual_sketch_app/cache/expression2.jpg");
+
+    uint8_t * bytelist = image.isContinuous() ? image.data : image.clone().data;
+
+    return predict(bytelist, image.rows, image.cols);
 }
