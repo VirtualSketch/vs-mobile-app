@@ -681,6 +681,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  vs_ai_vision:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "1d129a2db41af577a8eade34737eeb03b9449b2a"
+      url: "https://github.com/VirtualSketch/vs-ai-vision.git"
+    source: git
+    version: "1.0.0"
   watcher:
     dependency: transitive
     description:
@@ -724,5 +733,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.17.6 <3.0.0"
   flutter: ">=3.0.0"
