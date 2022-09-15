@@ -24,7 +24,9 @@ dependencies:
   arcore_flutter_plugin:
     git: https://github.com/VirtualSketch/arcore_flutter_plugin.git
   vs_ai_vision:
-    git: https://github.com/VirtualSketch/vs-ai-vision.git
+    git:
+      url: https://github.com/VirtualSketch/vs-ai-vision.git
+      ref: develop
 
 dev_dependencies:
   flutter_test:
