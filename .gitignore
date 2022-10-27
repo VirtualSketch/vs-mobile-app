@@ -45,7 +45,14 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Generated flutter windows files
+# Genereted dart files
+/lib/**/*.g.dart
 
+# Generated windows files
 /windows/flutter
 .cmake
+.opencv
+
+# C++ related
+/lib/**/build
+**/.cxx
