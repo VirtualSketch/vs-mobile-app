@@ -41,9 +41,7 @@ Size getOptimalSize(Mat image) {
  * onto the resized image.
  */
 
-Mat halfProcessImage(string imageName) {
-
-    Mat image = imread(imageName);
+Mat halfProcessImage(Mat image) {
 
     Size size = getOptimalSize(image);
 
@@ -58,9 +56,7 @@ Mat halfProcessImage(string imageName) {
  * resizing, converting to Grayscale and calculating the best
  * threshold to separate the features better
  */
-Mat preprocessImage(string imageName, bool training) {
-
-    Mat image = imread(imageName);
+Mat preprocessImage(Mat image, bool training) {
 
     Size size = getOptimalSize(image);
 
@@ -111,8 +107,8 @@ Mat preprocessImage(string imageName, bool training) {
  * for easier calling on different types of data (training vs testing).
  */
 
-Mat preprocessImage(string imageName) {
-    return preprocessImage(imageName, false);
+Mat preprocessImage(Mat image) {
+    return preprocessImage(image, false);
 }
 
 /*
@@ -121,8 +117,7 @@ Mat preprocessImage(string imageName) {
  * lines and removing them.
  */
 
-Mat preprocessSymbols(string imageName) {
-    Mat image = imread(imageName);
+Mat preprocessSymbols(Mat image) {
 
     Size size = getOptimalSize(image);
 
