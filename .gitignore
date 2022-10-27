@@ -51,6 +51,7 @@ app.*.map.json
 # Generated windows files
 /windows/flutter
 .cmake
+.opencv
 
 # C++ related
 /lib/**/build

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:virtual_sketch_app/components/custom_close_button.dart';
 import 'package:virtual_sketch_app/components/section_template.dart';
@@ -58,9 +59,11 @@ class SubjectScreen extends StatelessWidget {
         mainAxisSpacing: 32,
         children: subjects
             .map((subject) => SubjectItem(
-                name: subject['name'],
-                icon: subject['icon'],
-                isDisabled: subject['isDisabled']))
+                  name: subject['name'],
+                  icon: subject['icon'],
+                  isDisabled: subject['isDisabled'],
+                  onTap: () => Modular.to.navigate('/camera'),
+                ))
             .toList(),
       ),
     );

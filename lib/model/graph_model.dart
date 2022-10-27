@@ -4,10 +4,10 @@ part 'graph_model.g.dart';
 
 @JsonSerializable()
 class GraphModel {
-  @JsonKey(name: 'graph_image_url')
-  String graphImageUrl;
+  @JsonKey(name: 'graph_base64_image')
+  String graphBase64Image;
 
-  GraphModel({required this.graphImageUrl});
+  GraphModel({required this.graphBase64Image});
 
   factory GraphModel.fromJson(Map<String, dynamic> json) {
     return _$GraphModelFromJson(json);
