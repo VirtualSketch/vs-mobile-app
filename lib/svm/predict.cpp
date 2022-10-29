@@ -28,12 +28,29 @@ extern "C" const char * predict(uint8_t * bytelist, int rows, int cols) {
 
     Mat image = Mat(Size(cols, rows), CV_8UC3, bytelist);
 
+    string test = "";
+
+    test += "Rows: " + to_string(image.rows) + "\nCols: " + to_string(image.cols);
+
+    char * testToChar = new char[test.size() + 1];
+
+    copy(test.begin(), test.end(), testToChar);
+
+    testToChar[test.size()] = '\0';
+
+    const char * outputTest = testToChar;
+
+    // return outputTest;
+
     // Mat image1 = preprocessImage("./assets/mynumbers.jpeg");
     // Mat image2 = preprocessImage("./assets/realtest2.jpeg");
     // Mat image3 = preprocessImage("./assets/realtest3.jpg");
     /* Mat image4 = preprocessSymbols("/data/data/com.example.virtual_sketch_app/app_flutter/expression2.jpg"); */
     Mat image4 = preprocessSymbols(image);
     /* Mat image4 = preprocessSymbols("assets/expression2.jpg"); */
+
+    const char * teste = "passou por aqui";
+    return teste;
 
     // coordinatedMat coordMat1 = getBoundingSymbols(image1, 100);
     // coordinatedMat coordMat2 = getBoundingSymbols(image2, 100);
@@ -98,27 +115,4 @@ extern "C" const char * predict(uint8_t * bytelist, int rows, int cols) {
     // showImage("2", imageClone2);
     // showImage("3", imageClone3);
     // showImage("4", imageClone4);
-
-    string output = "";
-
-    for (string element: answers4)
-        output += element;
-
-    char * outputToChar = new char[output.size() + 1];
-
-    copy(output.begin(), output.end(), outputToChar);
-
-    outputToChar[output.size()] = '\0';
-
-    const char * predicted = outputToChar;
-
-    return predicted;
-}
-
-extern "C" const char * predictSample() {
-    Mat image = imread("/data/data/com.example.virtual_sketch_app/cache/expression2.jpg");
-
-    uint8_t * bytelist = image.isContinuous() ? image.data : image.clone().data;
-
-    return predict(bytelist, image.rows, image.cols);
 }

@@ -44,7 +44,7 @@ class HistoryCardList extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      '1fst Degree Function',
+                      'Second Degree Function',
                       style: GoogleFonts.nunito(
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.w700,
@@ -53,24 +53,25 @@ class HistoryCardList extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
                       child: SizedBox(
-                        width: 150,
-                        height: 150,
-                        child: Image(
-                          image: NetworkImage(
-                              'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
-                        ),
+                        width: 300,
+                        height: 300,
+                        child: Image.asset('assets/graph.png'),
                       ),
                     ),
-                    Text(
-                      'f(x) = -2X + 1 \nf(0) = -2x0 + 1 = 1 \nf(1) = -2x1 + 1 = -1 \nf(2) = -2x2 + 1 = -3 \nf(3) = -2x3 + 1 = -5',
-                      style: GoogleFonts.nunito(
-                        textStyle: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 24,
-                          color: Colors.black,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        // 'f(x) = -2X + 1 \nf(0) = -2x0 + 1 = 1 \nf(1) = -2x1 + 1 = -1 \nf(2) = -2x2 + 1 = -3 \nf(3) = -2x3 + 1 = -5',
+                        'f(x) = x ** 2 - 4 * x - 12 \n\nf(x) = x ** 2 - 4 * x - 12 = (-3) ** 2 - 4 * (-3) - 12 = 9 \n\nf(x) = x ** 2 - 4 * x - 12 = (-2) ** 2 - 4 * (-2) - 12 = 0 \n\nf(x) = x ** 2 - 4 * x - 12 = (-1) ** 2 - 4 * (-1) - 12 = -7 \n\nf(x) = x ** 2 - 4 * x - 12 = (0) ** 2 - 4 * (0) - 12 = -12 \n\nf(x) = x ** 2 - 4 * x - 12 = (1) ** 2 - 4 * (1) - 12 = -15 \n\nf(x) = x ** 2 - 4 * x - 12 = (2) ** 2 - 4 * (2) - 12 = -16 \n\nf(x) = x ** 2 - 4 * x - 12 = (3) ** 2 - 4 * (3) - 12 = -15',
+                        style: GoogleFonts.nunito(
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),

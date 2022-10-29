@@ -10,11 +10,9 @@ class GetGraphRepository implements IGetGraph {
   GetGraphRepository(this.getGraphApi);
 
   @override
-  Future<GraphModel> getGraph(
-      String sessionId, String rawExpression, String graphColor) async {
+  Future<GraphModel> getGraph(String rawExpression, String graphColor) async {
     try {
-      final response =
-          await getGraphApi.getGraph(sessionId, rawExpression, graphColor);
+      final response = await getGraphApi.getGraph(rawExpression, graphColor);
       final graph = GraphModel.fromJson(response.data);
       return graph;
     } on DioError catch (e) {
