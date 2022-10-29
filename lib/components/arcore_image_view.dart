@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ffi' as ffi;
 import 'package:ffi/ffi.dart';
@@ -10,6 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:indexed/indexed.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:virtual_sketch_app/components/custom_close_button.dart';
+import 'package:virtual_sketch_app/utils/save_image.dart';
 import 'package:virtual_sketch_app/utils/to_uint_8_list.dart';
 import 'package:virtual_sketch_app/view_model/main_viewmodel.dart';
 import 'package:vs_ai_vision/vs_ai_vision.dart';
@@ -57,22 +59,22 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
     Uint8List screen = await arCoreController.snapshot();
     var decodeImage = await decodeImageFromList(screen);
 
-    // var size = WidgetsBinding.instance.window.physicalSize;
+    var size = WidgetsBinding.instance.window.physicalSize;
 
-    // Map fileProps =
-    //     await saveImage(screen, size.height.toInt(), size.width.toInt());
+    Map fileProps =
+        await saveImage(screen, size.height.toInt(), size.width.toInt());
 
-    // String path = fileProps['path'] as String;
-    // File file = fileProps['file'] as File;
+    String path = fileProps['path'] as String;
+    File file = fileProps['file'] as File;
 
     // final result = await ImageGallerySaver.saveImage(screen, name: 'graph');
     // print('imagem salva');
     // print(result);
 
-    // print(screen);
-    // print('arquivo local');
-    // print(await file.exists());
-    // print(path);
+    print(screen);
+    print('arquivo local');
+    print(await file.exists());
+    print(path);
 
     // print(await file.readAsBytes());
 
@@ -99,7 +101,10 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
     // print('antes do predict');
 
     String expression = svmMethods
-        .predict(pointer, decodeImage.width, decodeImage.height)
+        // .predict(pointer, decodeImage.width, decodeImage.height)
+        .predictWithPath(
+            '/data/data/com.example.virtual_sketch_app/cache/graph.jpg'
+                .toNativeUtf8())
         .toDartString();
 
     print('predict');
