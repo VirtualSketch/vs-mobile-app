@@ -24,6 +24,7 @@ dependencies:
   path_provider: ^2.0.11
   flutter_native_splash: ^2.2.8
   font_awesome_flutter: ^10.1.0
+  fluttertoast: ^8.1.1
   indexed: ^0.0.8
   screenshot: ^1.2.3
   arcore_flutter_plugin:
