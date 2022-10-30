@@ -686,7 +686,7 @@ packages:
     description:
       path: "."
       ref: develop
-      resolved-ref: b356f6a801d15e15a1b8d2dd97e20d371d7f5b4d
+      resolved-ref: b38efd0f5c3483e77e28c0f808b151394ff2519a
       url: "https://github.com/VirtualSketch/vs-ai-vision.git"
     source: git
     version: "1.0.0"
