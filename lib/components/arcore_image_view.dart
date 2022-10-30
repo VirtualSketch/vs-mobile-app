@@ -11,6 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:indexed/indexed.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:virtual_sketch_app/components/custom_close_button.dart';
+import 'package:virtual_sketch_app/components/delimited_area.dart';
 import 'package:virtual_sketch_app/utils/save_image.dart';
 import 'package:virtual_sketch_app/utils/to_uint_8_list.dart';
 import 'package:virtual_sketch_app/view_model/main_viewmodel.dart';
@@ -137,6 +138,21 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
           body: SafeArea(
             child: Indexer(
               children: [
+                Indexed(
+                  index: 99,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SizedBox(
+                        height: 200,
+                        width: double.infinity,
+                        child: CustomPaint(
+                          painter: DelimitedArea(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Indexed(
                   index: 99,
                   child: Padding(
