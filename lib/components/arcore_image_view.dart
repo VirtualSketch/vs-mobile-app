@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ffi' as ffi;
+import 'package:ffi/ffi.dart';
 
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +11,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:indexed/indexed.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:virtual_sketch_app/components/custom_close_button.dart';
+import 'package:virtual_sketch_app/components/delimited_area.dart';
+import 'package:virtual_sketch_app/utils/save_image.dart';
 import 'package:virtual_sketch_app/utils/to_uint_8_list.dart';
 import 'package:virtual_sketch_app/view_model/main_viewmodel.dart';
+import 'package:vs_ai_vision/vs_ai_vision.dart';
+
+typedef Uint8ListPointer = ffi.Pointer<ffi.Uint8>;
+
+extension Uint8ListBlobConversion on Uint8List {
+  /// Allocates a pointer filled with the Uint8List data.
+  Uint8ListPointer allocatePointer() {
+    final blob = calloc<ffi.Uint8>(length);
+    final blobBytes = blob.asTypedList(length);
+    blobBytes.setAll(0, this);
+    return blob;
+  }
+}
 
 class ArcoreImageView extends StatefulWidget {
   const ArcoreImageView({Key? key, this.imageUrl}) : super(key: key);
@@ -22,7 +40,79 @@ class ArcoreImageView extends StatefulWidget {
 
 class _ArcoreImageViewState extends State<ArcoreImageView> {
   late ArCoreController arCoreController;
-  Uint8List? imageBytes;
+  final svmMethods = SVMFunctions();
+
+  List<String> fromUtf16(ffi.Pointer<ffi.Uint8> ptr) {
+    final units = <String>[];
+    int len = 0;
+    while (true) {
+      final char = ptr.elementAt(len++).toString();
+      if (char == 0) {
+        break;
+      }
+      units.add(char);
+    }
+    return units;
+  }
+
+  Future<void> _handleScreenShot(
+      MainViewModel mainViewModel, double h, double w) async {
+    Uint8List screen = await arCoreController.snapshot();
+    var decodeImage = await decodeImageFromList(screen);
+
+    var size = WidgetsBinding.instance.window.physicalSize;
+
+    Map fileProps =
+        await saveImage(screen, size.height.toInt(), size.width.toInt());
+
+    String path = fileProps['path'] as String;
+    File file = fileProps['file'] as File;
+
+    // final result = await ImageGallerySaver.saveImage(screen, name: 'graph');
+    // print('imagem salva');
+    // print(result);
+
+    print(screen);
+    print('arquivo local');
+    print(await file.exists());
+    print(path);
+
+    // print(await file.readAsBytes());
+
+    // print('imagem decodificada');
+    // print(screen);
+    // print(await decodeImage.toByteData());
+
+    Uint8ListPointer pointer =
+        Uint8ListBlobConversion(screen).allocatePointer();
+
+    // print(pointer.elementAt(0).value);
+
+    // print('decode image');
+    // print(decodeImage.height);
+    // print(decodeImage.width);
+
+    // Size size = WidgetsBinding.instance.window.physicalSize;
+    // print('screen');
+    // print(size.height);
+    // print(size.width);
+
+    // print(fromUtf16(pointer));
+
+    // print('antes do predict');
+
+    String expression = svmMethods
+        // .predict(pointer, decodeImage.width, decodeImage.height)
+        .predictWithPath(
+            '/data/data/com.example.virtual_sketch_app/cache/graph.jpg'
+                .toNativeUtf8())
+        .toDartString();
+
+    print('predict');
+    print(expression);
+
+    // mainViewModel.resolveExpression(expression);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +123,13 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
           floatingActionButton: FloatingActionButton(
             backgroundColor: const Color(0xFF7A44EC),
             onPressed: () async {
-              mainViewModel.takeSnapshot();
+              if (mainViewModel.currentImage != null) {
+                arCoreController.removeNode(nodeName: 'image');
+              }
+              _handleScreenShot(
+                  mainViewModel,
+                  MediaQuery.of(context).size.height,
+                  MediaQuery.of(context).size.width);
             },
             child: const FaIcon(FontAwesomeIcons.camera),
           ),
@@ -42,6 +138,21 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
           body: SafeArea(
             child: Indexer(
               children: [
+                Indexed(
+                  index: 99,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SizedBox(
+                        height: 200,
+                        width: double.infinity,
+                        child: CustomPaint(
+                          painter: DelimitedArea(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Indexed(
                   index: 99,
                   child: Padding(
@@ -56,17 +167,8 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
                         onArCoreViewCreated: (controller) =>
                             _onArCoreViewCreated(controller, mainViewModel),
                         type: ArCoreViewType.AUGMENTEDIMAGES,
-                        // enableTapRecognizer: true,
-                        // enableUpdateListener: true,
                       ),
                     ),
-                    // SizedBox(
-                    //   height: 200,
-                    //   child: mainViewModel.currentImageBytes != null
-                    //       ? Image.memory(mainViewModel.currentImageBytes!)
-                    //       : Image.network(
-                    //           'https://media.istockphoto.com/photos/mountain-landscape-picture-id517188688?k=20&m=517188688&s=612x612&w=0&h=i38qBm2P-6V4vZVEaMy_TaTEaoCMkYhvLCysE7yJQ5Q='),
-                    // )
                   ],
                 )
               ],
@@ -78,37 +180,22 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
   void _onArCoreViewCreated(
       ArCoreController controller, MainViewModel viewModel) {
     arCoreController = controller;
-    viewModel.setArcoreController(controller);
-
-    print(widget.imageUrl);
-
-    // if (widget.imageUrl != null) {
-    //   print('Entrou no if');
-    //   _addImage(arCoreController);
-    // }
-    _addImage(viewModel.arCoreController!);
-    // _addImage(arCoreController);
-    // if (viewModel.arCoreController != null) {
-    //   try {
-    //     _addImage(viewModel.arCoreController!);
-    //   } catch (e) {
-    //     throw Error();
-    //   }
-    // }
+    _addImage(arCoreController, viewModel);
   }
 
-  void _addImage(ArCoreController controller) async {
-    Uint8List imageBytes = await toUint8List(
-        'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzV8fHBlcnNvbnxlbnwwfHwwfHw%3D&w=1000&q=80');
-    print('func iniciada');
-    final image = ArCoreImage(bytes: imageBytes, width: 5000, height: 5000);
+  void _addImage(ArCoreController controller, MainViewModel viewModel) async {
+    if (viewModel.currentImage != null) {
+      Uint8List imageBytes = await toUint8List(viewModel.currentImage!);
 
-    final node = ArCoreNode(
-      name: 'image',
-      image: image,
-      position: vector.Vector3(-0.5, -0.5, -3.5),
-    );
-    // controller.addArCoreNode(node);
+      final image = ArCoreImage(bytes: imageBytes, width: 5000, height: 5000);
+
+      final node = ArCoreNode(
+        name: 'image',
+        image: image,
+        position: vector.Vector3(-0.5, -0.5, -3.5),
+      );
+      controller.addArCoreNode(node);
+    }
   }
 
   @override

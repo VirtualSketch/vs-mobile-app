@@ -7,14 +7,10 @@ class GetGraphApi {
 
   GetGraphApi({required this.dioClient});
 
-  Future<Response> getGraph(
-      String sessionId, String rawExpression, String graphColor) async {
+  Future<Response> getGraph(String rawExpression, String graphColor) async {
     try {
-      final Response response = await dioClient.post(Endpoints.getGraph, data: {
-        'session_id': sessionId,
-        'raw_expression': rawExpression,
-        'graph_color': graphColor
-      });
+      final Response response = await dioClient.post(Endpoints.getGraph,
+          data: {'raw_expression': rawExpression, 'graph_color': graphColor});
       return response;
     } catch (e) {
       rethrow;

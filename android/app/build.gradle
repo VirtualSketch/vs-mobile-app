@@ -24,9 +24,11 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.ar.sceneform.plugin'
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    // compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 31
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -53,7 +55,7 @@ android {
           cmake {
                 cppFlags '-frtti -fexceptions -std=c++11'
                 arguments "-DANDROID_STL=c++_shared",
-                    "-DANDROID_OPENCV_SOURCE_DIR="
+                    "-DANDROID_OPENCV_SOURCE_DIR=E:\\Projects\\tcc\\vitual-sketch-repos\\vs-mobile-app\\.opencv\\sdk\\native\\jni\\include"
           }
         }
         ndk.abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64', 'x86'
@@ -89,7 +91,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.google.ar:core:1.32.0"
+    implementation "com.google.ar:core:1.33.0"
     implementation "com.google.ar.sceneform.ux:sceneform-ux:1.8.0"
     implementation "com.google.ar.sceneform:core:1.8.0"
 }

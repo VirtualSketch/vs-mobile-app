@@ -1,11 +1,8 @@
 import 'dart:typed_data';
 
-import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:flutter/material.dart';
-import 'package:indexed/indexed.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:virtual_sketch_app/components/arcore_image_view.dart';
-import 'package:virtual_sketch_app/components/custom_close_button.dart';
 
 class ArCameraView extends StatefulWidget {
   const ArCameraView({Key? key}) : super(key: key);

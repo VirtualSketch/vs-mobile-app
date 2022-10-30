@@ -14,11 +14,14 @@ dependencies:
   flutter_mobx: ^2.0.6+1
   mobx: ^2.0.7+5
   mobx_codegen: ^2.0.7
+  image: ^3.2.2
+  image_gallery_saver: ^1.7.1
   flutter_modular: ^5.0.3
   google_fonts: ^3.0.1
   vector_math: ^2.1.2
   dio: ^4.0.6
   json_annotation: ^4.6.0
+  path_provider: ^2.0.11
   flutter_native_splash: ^2.2.8
   font_awesome_flutter: ^10.1.0
   indexed: ^0.0.8
@@ -44,3 +47,5 @@ flutter_native_splash:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/graph.png
