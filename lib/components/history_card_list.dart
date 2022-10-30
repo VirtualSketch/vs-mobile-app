@@ -1,21 +1,46 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:virtual_sketch_app/utils/to_uint_8_list.dart';
+import 'package:virtual_sketch_app/view_model/main_viewmodel.dart';
 
 class HistoryCardList extends StatelessWidget {
   const HistoryCardList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        _itemBuilder(context),
-        _itemBuilder(context),
-        _itemBuilder(context),
-      ],
+    return Observer(
+      builder: ((_) {
+        final mainViewModel = Modular.get<MainViewModel>();
+
+        if (mainViewModel.resolvedExpressions.isEmpty) {
+          return Center(
+            child: Text(
+              'Sem items',
+              style: GoogleFonts.nunito(
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.white)),
+            ),
+          );
+        }
+
+        return ListView(
+          children: mainViewModel.resolvedExpressions
+              .map((item) => _itemBuilder(context, item!))
+              .toList(),
+        );
+      }),
     );
   }
 
-  Widget _itemBuilder(BuildContext context) {
+  Widget _itemBuilder(BuildContext context, Map<String, dynamic> item) {
+    Uint8List imageBytes = toUint8List(item['image'].toString());
+    List<String> equationSteps = item['equation'];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6.0),
       child: Card(
@@ -58,23 +83,26 @@ class HistoryCardList extends StatelessWidget {
                       child: SizedBox(
                         width: 300,
                         height: 300,
-                        child: Image.asset('assets/graph.png'),
+                        child: Image.memory(imageBytes),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(
-                        // 'f(x) = -2X + 1 \nf(0) = -2x0 + 1 = 1 \nf(1) = -2x1 + 1 = -1 \nf(2) = -2x2 + 1 = -3 \nf(3) = -2x3 + 1 = -5',
-                        'f(x) = x ** 2 - 4 * x - 12 \n\nf(x) = x ** 2 - 4 * x - 12 = (-3) ** 2 - 4 * (-3) - 12 = 9 \n\nf(x) = x ** 2 - 4 * x - 12 = (-2) ** 2 - 4 * (-2) - 12 = 0 \n\nf(x) = x ** 2 - 4 * x - 12 = (-1) ** 2 - 4 * (-1) - 12 = -7 \n\nf(x) = x ** 2 - 4 * x - 12 = (0) ** 2 - 4 * (0) - 12 = -12 \n\nf(x) = x ** 2 - 4 * x - 12 = (1) ** 2 - 4 * (1) - 12 = -15 \n\nf(x) = x ** 2 - 4 * x - 12 = (2) ** 2 - 4 * (2) - 12 = -16 \n\nf(x) = x ** 2 - 4 * x - 12 = (3) ** 2 - 4 * (3) - 12 = -15',
-                        style: GoogleFonts.nunito(
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: equationSteps
+                            .map((item) => Text(item,
+                                style: GoogleFonts.nunito(
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 24,
+                                    color: Colors.black,
+                                  ),
+                                )))
+                            .toList(),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
