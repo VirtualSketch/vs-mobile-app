@@ -56,3 +56,5 @@ app.*.map.json
 # C++ related
 /lib/**/build
 **/.cxx
+
+.fvm

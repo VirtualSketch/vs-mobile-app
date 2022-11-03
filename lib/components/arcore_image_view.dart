@@ -1,15 +1,16 @@
-import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ffi' as ffi;
+import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
 
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:indexed/indexed.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
+import 'package:virtual_sketch_app/components/Dialog.dart';
 import 'package:virtual_sketch_app/components/custom_close_button.dart';
 import 'package:virtual_sketch_app/components/delimited_area.dart';
 import 'package:virtual_sketch_app/utils/save_image.dart';
@@ -40,7 +41,10 @@ class ArcoreImageView extends StatefulWidget {
 
 class _ArcoreImageViewState extends State<ArcoreImageView> {
   late ArCoreController arCoreController;
-  final svmMethods = SVMFunctions();
+  final svm = SVMFunctions();
+
+  Uint8List? imageBytes;
+  String? texto;
 
   List<String> fromUtf16(ffi.Pointer<ffi.Uint8> ptr) {
     final units = <String>[];
@@ -56,62 +60,23 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
   }
 
   Future<void> _handleScreenShot(
-      MainViewModel mainViewModel, double h, double w) async {
+      BuildContext context, MainViewModel mainViewModel) async {
     Uint8List screen = await arCoreController.snapshot();
+    arCoreController.loadSingleAugmentedImage(bytes: screen);
+
     var decodeImage = await decodeImageFromList(screen);
 
-    var size = WidgetsBinding.instance.window.physicalSize;
-
-    Map fileProps =
-        await saveImage(screen, size.height.toInt(), size.width.toInt());
-
-    String path = fileProps['path'] as String;
-    File file = fileProps['file'] as File;
-
-    // final result = await ImageGallerySaver.saveImage(screen, name: 'graph');
-    // print('imagem salva');
-    // print(result);
+    String filePath = await saveImage(screen);
 
     print(screen);
-    print('arquivo local');
-    print(await file.exists());
-    print(path);
 
-    // print(await file.readAsBytes());
+    String expression =
+        svm.predictWithPath(filePath.toNativeUtf8()).toDartString();
 
-    // print('imagem decodificada');
-    // print(screen);
-    // print(await decodeImage.toByteData());
+    String splitedExpression = expression.split('=')[1];
 
-    Uint8ListPointer pointer =
-        Uint8ListBlobConversion(screen).allocatePointer();
-
-    // print(pointer.elementAt(0).value);
-
-    // print('decode image');
-    // print(decodeImage.height);
-    // print(decodeImage.width);
-
-    // Size size = WidgetsBinding.instance.window.physicalSize;
-    // print('screen');
-    // print(size.height);
-    // print(size.width);
-
-    // print(fromUtf16(pointer));
-
-    // print('antes do predict');
-
-    String expression = svmMethods
-        // .predict(pointer, decodeImage.width, decodeImage.height)
-        .predictWithPath(
-            '/data/data/com.example.virtual_sketch_app/cache/graph.jpg'
-                .toNativeUtf8())
-        .toDartString();
-
-    print('predict');
-    print(expression);
-
-    // mainViewModel.resolveExpression(expression);
+    showAlertDialog(context, 'A expressão esta correta?', expression,
+        () => mainViewModel.resolveExpression(splitedExpression));
   }
 
   @override
@@ -126,10 +91,7 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
               if (mainViewModel.currentImage != null) {
                 arCoreController.removeNode(nodeName: 'image');
               }
-              _handleScreenShot(
-                  mainViewModel,
-                  MediaQuery.of(context).size.height,
-                  MediaQuery.of(context).size.width);
+              _handleScreenShot(context, mainViewModel);
             },
             child: const FaIcon(FontAwesomeIcons.camera),
           ),
@@ -164,9 +126,9 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
                   children: [
                     Expanded(
                       child: ArCoreView(
+                        enableUpdateListener: true,
                         onArCoreViewCreated: (controller) =>
                             _onArCoreViewCreated(controller, mainViewModel),
-                        type: ArCoreViewType.AUGMENTEDIMAGES,
                       ),
                     ),
                   ],
@@ -180,12 +142,30 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
   void _onArCoreViewCreated(
       ArCoreController controller, MainViewModel viewModel) {
     arCoreController = controller;
-    _addImage(arCoreController, viewModel);
+    viewModel.setArController(controller);
+
+    print('AR inicializado');
+
+    // _addImage(arCoreController, viewModel);
+
+    // arCoreController.onPlaneDetected = ((plane) {
+    //   print('plane detectado');
+    //   print(plane);
+
+    //   Fluttertoast.showToast(
+    //       msg: 'Plano encontrado',
+    //       toastLength: Toast.LENGTH_SHORT,
+    //       gravity: ToastGravity.TOP,
+    //       timeInSecForIosWeb: 1,
+    //       backgroundColor: Colors.red,
+    //       textColor: Colors.white,
+    //       fontSize: 16.0);
+    // });
   }
 
   void _addImage(ArCoreController controller, MainViewModel viewModel) async {
     if (viewModel.currentImage != null) {
-      Uint8List imageBytes = await toUint8List(viewModel.currentImage!);
+      Uint8List imageBytes = toUint8List(viewModel.currentImage!);
 
       final image = ArCoreImage(bytes: imageBytes, width: 5000, height: 5000);
 
@@ -195,7 +175,36 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
         position: vector.Vector3(-0.5, -0.5, -3.5),
       );
       controller.addArCoreNode(node);
+      // controller.loadSingleAugmentedImage(bytes: bytes)
+      // controller.addArCoreNodeToAugmentedImage(node, index)
     }
+
+    print('teste iniciado');
+
+    // final material = ArCoreMaterial(
+    //   color: const Color.fromARGB(120, 6, 215, 230),
+    //   metallic: 1.0,
+    // );
+    // final cube = ArCoreCube(
+    //   materials: [material],
+    //   size: vector.Vector3(0.5, 0.5, 0.5),
+    // );
+    // final node = ArCoreNode(
+    //   shape: cube,
+    //   position: vector.Vector3(-0.5, 0.5, -3.5),
+    // );
+    // controller.addArCoreNode(node);
+
+    final ByteData bytes = await rootBundle.load('assets/graph.png');
+    final Uint8List list = bytes.buffer.asUint8List();
+    final image = ArCoreImage(bytes: list, width: 5000, height: 5000);
+    final node = ArCoreNode(
+      name: 'image',
+      image: image,
+      position: vector.Vector3(-0.5, 0.5, -3.5),
+      // position: vector.Vector3(0, 0, 0),
+    );
+    controller.addArCoreNode(node);
   }
 
   @override
