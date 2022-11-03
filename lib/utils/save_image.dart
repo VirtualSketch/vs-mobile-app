@@ -3,8 +3,7 @@ import 'dart:typed_data';
 
 import 'package:path_provider/path_provider.dart';
 
-Future<Map<String, dynamic>> saveImage(
-    Uint8List imageBytes, int h, int w) async {
+Future<String> saveImage(Uint8List imageBytes) async {
   try {
     Directory appDocumentsDirectory = await getTemporaryDirectory();
     String appDocumentsPath = appDocumentsDirectory.path;
@@ -12,11 +11,9 @@ Future<Map<String, dynamic>> saveImage(
 
     File file = File(filePath);
 
-    file.writeAsBytes(imageBytes);
+    await file.writeAsBytes(imageBytes);
 
-    print(await file.exists());
-
-    return {'path': filePath, 'file': file};
+    return filePath;
   } catch (e) {
     throw Exception(e);
   }

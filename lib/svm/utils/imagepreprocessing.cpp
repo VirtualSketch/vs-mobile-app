@@ -11,6 +11,16 @@ using namespace std;
 using namespace cv;
 
 /*
+ * Function that crops the center of the image inside the red delimitation
+ */
+
+Mat cropCenter(Mat image) {
+    Mat cropped = image.rowRange(image.rows / 2 - 175, image.rows / 2 + 150).colRange(image.cols / 2 - 325, image.cols / 2 + 325).clone();
+
+    return cropped;
+}
+
+/*
  * Function that returns the best size for resizing the image.
  * For instance, if the image has 1249x747 pixels, our optimal size
  * would be 1200x700 for best results
@@ -119,10 +129,12 @@ Mat preprocessImage(Mat image) {
 
 Mat preprocessSymbols(Mat image) {
 
-    Size size = getOptimalSize(image);
+    Mat croppedImage = cropCenter(image);
+
+    Size size = getOptimalSize(croppedImage);
 
     Mat resizedImage;
-    resize(image, resizedImage, size);
+    resize(croppedImage, resizedImage, size);
 
     Mat grayImage;
     cvtColor(resizedImage, grayImage, COLOR_BGR2GRAY);

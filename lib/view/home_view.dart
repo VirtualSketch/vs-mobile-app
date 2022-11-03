@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:virtual_sketch_app/components/app_bar_menu.dart';
 import 'package:virtual_sketch_app/components/history.dart';
 import 'package:virtual_sketch_app/components/subject_screen.dart';
-import 'package:virtual_sketch_app/utils/ia_read.dart';
+import 'package:vs_ai_vision/vs_ai_vision.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,6 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = PageController(initialPage: 1);
+    final svm = SVMFunctions();
 
     return PageView(
       controller: controller,
@@ -20,9 +21,9 @@ class HomePage extends StatelessWidget {
         Scaffold(
           appBar: AppBarMenu(height: 120, barTitle: 'Access the history'),
           backgroundColor: const Color(0xFFEDF6F9),
-          floatingActionButton: FloatingActionButton(onPressed: () {
-            getReadExpression();
-          }),
+          // floatingActionButton: FloatingActionButton(onPressed: () {
+          //   svm.predictSample();
+          // }),
           body: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
