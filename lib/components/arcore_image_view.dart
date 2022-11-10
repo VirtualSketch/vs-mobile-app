@@ -1,12 +1,13 @@
 import 'dart:ffi' as ffi;
-import 'dart:typed_data';
 import 'package:ffi/ffi.dart';
+import 'dart:typed_data' as types;
 
 import 'package:arcore_flutter_plugin/arcore_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:indexed/indexed.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
@@ -18,22 +19,22 @@ import 'package:virtual_sketch_app/utils/to_uint_8_list.dart';
 import 'package:virtual_sketch_app/view_model/main_viewmodel.dart';
 import 'package:vs_ai_vision/vs_ai_vision.dart';
 
-typedef Uint8ListPointer = ffi.Pointer<ffi.Uint8>;
+// typedef Uint8ListPointer = ffi.Pointer<ffi.Uint8>;
 
-extension Uint8ListBlobConversion on Uint8List {
-  /// Allocates a pointer filled with the Uint8List data.
-  Uint8ListPointer allocatePointer() {
-    final blob = calloc<ffi.Uint8>(length);
-    final blobBytes = blob.asTypedList(length);
-    blobBytes.setAll(0, this);
-    return blob;
-  }
-}
+// extension Uint8ListBlobConversion on Uint8List {
+//   /// Allocates a pointer filled with the Uint8List data.
+//   Uint8ListPointer allocatePointer() {
+//     final blob = calloc<ffi.Uint8>(length);
+//     final blobBytes = blob.asTypedList(length);
+//     blobBytes.setAll(0, this);
+//     return blob;
+//   }
+// }
 
 class ArcoreImageView extends StatefulWidget {
   const ArcoreImageView({Key? key, this.imageUrl}) : super(key: key);
 
-  final Uint8List? imageUrl;
+  final types.Uint8List? imageUrl;
 
   @override
   State<ArcoreImageView> createState() => _ArcoreImageViewState();
@@ -43,7 +44,7 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
   late ArCoreController arCoreController;
   final svm = SVMFunctions();
 
-  Uint8List? imageBytes;
+  types.Uint8List? imageBytes;
   String? texto;
 
   List<String> fromUtf16(ffi.Pointer<ffi.Uint8> ptr) {
@@ -61,22 +62,33 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
 
   Future<void> _handleScreenShot(
       BuildContext context, MainViewModel mainViewModel) async {
-    Uint8List screen = await arCoreController.snapshot();
-    arCoreController.loadSingleAugmentedImage(bytes: screen);
+    try {
+      types.Uint8List screen = await arCoreController.snapshot();
+      arCoreController.loadSingleAugmentedImage(bytes: screen);
 
-    var decodeImage = await decodeImageFromList(screen);
+      var decodeImage = await decodeImageFromList(screen);
 
-    String filePath = await saveImage(screen);
+      String filePath = await saveImage(screen);
 
-    print(screen);
+      print(screen);
 
-    String expression =
-        svm.predictWithPath(filePath.toNativeUtf8()).toDartString();
+      String expression =
+          svm.predictWithPath(filePath.toNativeUtf8()).toDartString();
 
-    String splitedExpression = expression.split('=')[1];
+      String splitedExpression = expression.split('=')[1];
 
-    showAlertDialog(context, 'A expressão esta correta?', expression,
-        () => mainViewModel.resolveExpression(splitedExpression));
+      showAlertDialog(context, 'A expressão esta correta?', expression,
+          () => mainViewModel.resolveExpression(splitedExpression));
+    } catch (_) {
+      Fluttertoast.showToast(
+          msg: 'Erro no reconhecimento da função.',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 
   @override
@@ -165,7 +177,7 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
 
   void _addImage(ArCoreController controller, MainViewModel viewModel) async {
     if (viewModel.currentImage != null) {
-      Uint8List imageBytes = toUint8List(viewModel.currentImage!);
+      types.Uint8List imageBytes = toUint8List(viewModel.currentImage!);
 
       final image = ArCoreImage(bytes: imageBytes, width: 5000, height: 5000);
 
@@ -196,7 +208,7 @@ class _ArcoreImageViewState extends State<ArcoreImageView> {
     // controller.addArCoreNode(node);
 
     final ByteData bytes = await rootBundle.load('assets/graph.png');
-    final Uint8List list = bytes.buffer.asUint8List();
+    final types.Uint8List list = bytes.buffer.asUint8List();
     final image = ArCoreImage(bytes: list, width: 5000, height: 5000);
     final node = ArCoreNode(
       name: 'image',

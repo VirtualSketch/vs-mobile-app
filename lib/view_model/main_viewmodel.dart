@@ -89,7 +89,7 @@ abstract class MainViewModelBase with Store {
     arController?.addArCoreNode(node);
 
     Fluttertoast.showToast(
-        msg: 'Node ${arController!.id.toString()} adicionado',
+        msg: 'Gráfico Adicionado',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 1,
@@ -107,12 +107,14 @@ abstract class MainViewModelBase with Store {
       final equationResult =
           await Modular.get<GetEquationRepository>().getEquation(expression);
 
-      final graphImageResult =
+      final graphDarkImageResult =
           await Modular.get<GetGraphRepository>().getGraph(expression, '#000');
+      final graphLightImageResult =
+          await Modular.get<GetGraphRepository>().getGraph(expression, '#fff');
 
-      setCurrentImage(graphImageResult.graphBase64Image);
+      setCurrentImage(graphLightImageResult.graphBase64Image);
       setResolvedExpressions(equationResult.equation,
-          graphImageResult.graphBase64Image, expression);
+          graphDarkImageResult.graphBase64Image, expression);
 
       if (prevImage != null) {
         arController?.removeNode(nodeName: 'image');
