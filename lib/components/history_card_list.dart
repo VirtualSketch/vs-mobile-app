@@ -58,7 +58,8 @@ class HistoryCardList extends StatelessWidget {
         ),
         child: InkWell(
           splashColor: const Color(0xFFBBCDE5),
-          onTap: () {},
+          onTap: () => Modular.to.navigate('/result',
+              arguments: {'image': imageBytes, 'equation': equationSteps}),
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
@@ -70,7 +71,7 @@ class HistoryCardList extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      'Second Degree Function',
+                      'Function',
                       style: GoogleFonts.nunito(
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.w700,

@@ -5,6 +5,7 @@ import 'package:virtual_sketch_app/services/api/api.dart';
 import 'package:virtual_sketch_app/repositories/repositories.dart';
 import 'package:virtual_sketch_app/view/ar_camera_view.dart';
 import 'package:virtual_sketch_app/view/home_view.dart';
+import 'package:virtual_sketch_app/view/result_view.dart';
 import 'package:virtual_sketch_app/view_model/main_viewmodel.dart';
 
 class AppModule extends Module {
@@ -29,5 +30,9 @@ class AppModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute('/', child: (context, args) => const HomePage()),
         ChildRoute('/camera', child: (context, args) => const ArCameraView()),
+        ChildRoute('/result',
+            child: (context, args) => ResultView(
+                imageBytes: args.data['image'],
+                equationSteps: args.data['equation'])),
       ];
 }
