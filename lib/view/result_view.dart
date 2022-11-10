@@ -53,19 +53,21 @@ class ResultView extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: equationSteps
-                      .map((item) => Text(item,
-                          style: GoogleFonts.nunito(
-                            textStyle: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 24,
-                              color: Colors.black,
-                            ),
-                          )))
-                      .toList(),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: equationSteps
+                        .map((item) => Text(item,
+                            style: GoogleFonts.nunito(
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 24,
+                                color: Colors.black,
+                              ),
+                            )))
+                        .toList(),
+                  ),
                 ),
               )
             ],
